@@ -16,7 +16,12 @@ spring:
   batch:
     jdbc:
       initialize-schema: embedded
-
+    job:
+      enabled: false
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
 
 ---
 spring:
@@ -32,3 +37,5 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+#    job:
+#      enabled: false
