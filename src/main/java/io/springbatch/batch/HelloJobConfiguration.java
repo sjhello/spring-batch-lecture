@@ -31,14 +31,7 @@ public class HelloJobConfiguration {
 	@Bean
 	public Step helloStep1() {
 		return stepBuilderFactory.get("helloStep1")
-			.tasklet(new Tasklet() {
-				@Override
-				public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws
-					Exception {
-					System.out.println("hello spring-batch --> helloStep1");
-					return RepeatStatus.FINISHED;
-				}
-			}).build();
+			.tasklet(new MyTasklet()).build();
 	}
 
 	@Bean
