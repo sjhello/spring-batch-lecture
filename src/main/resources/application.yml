@@ -39,5 +39,7 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      names: ${job.name:NONE}   # programe argument로 전달하는 값이 없으면 job 이름이 NONE인 Job을 실행함
 #    job:
-#      enabled: false
+#      enabled: true

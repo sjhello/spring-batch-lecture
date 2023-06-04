@@ -1,4 +1,4 @@
-package io.springbatch.batch.job.validator;
+package io.springbatch.batch.job.preventrestart;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -11,46 +11,34 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class ValidatorConfiguration {
+public class PreventConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job validatorJob() {
-        return jobBuilderFactory.get("validatorJob")
-                .start(validatorStep1())
-                .next(validatorStep2())
-                .next(validatorStep3())
-                .validator(new CustomJobParametersValidator())
+    public Job preventRestartJob() {
+        return jobBuilderFactory.get("preventRestartJob")
+                .start(preventRestartStep1())
+                .preventRestart()       // JobRestartException : JobInstance already exists and is not restartable
                 .build();
     }
 
     @Bean
-    public Step validatorStep1() {
-        return stepBuilderFactory.get("validatorStep1")
+    public Step preventRestartStep1() {
+        return stepBuilderFactory.get("preventRestartStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    System.out.println("validatorStep1");
+                    System.out.println("preventRestartStep1");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
     }
 
     @Bean
-    public Step validatorStep2() {
-        return stepBuilderFactory.get("validatorStep2")
+    public Step preventRestartStep2() {
+        return stepBuilderFactory.get("preventRestartStep2")
                 .tasklet((contribution, chunkContext) -> {
-                    System.out.println("validatorStep2");
-                    return RepeatStatus.FINISHED;
-                })
-                .build();
-    }
-
-    @Bean
-    public Step validatorStep3() {
-        return stepBuilderFactory.get("validatorStep3")
-                .tasklet((contribution, chunkContext) -> {
-                    System.out.println("validatorStep3");
+                    System.out.println("preventRestartStep2");
                     return RepeatStatus.FINISHED;
                 })
                 .build();
